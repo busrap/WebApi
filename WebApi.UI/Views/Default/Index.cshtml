@@ -1,0 +1,67 @@
+﻿<form id="frm">
+    <label>Kategori Adi</label>
+    <input type="text" name="CategoryName" value="" />
+    <label>Açıklama</label>
+    <input type="text" name="Description" value="" />
+
+    <input type="button" id="btnKaydet" value="Kaydet" />
+</form>
+<hr />
+<button id="btnCategory">Kategori Getir</button>
+<button id="btnCategoryList">Kategorileri Getir</button>
+<div id="data">
+
+</div>
+
+@section script{
+    <script>
+        $(document).ready(function () {
+            var url = "http://localhost:22559/";   
+
+
+            $("#btnCategoryList").click(function () {
+                $.ajax({
+                    url: url + "api/Category",
+                    type: "GET",
+                    success: function (response) {
+                        $.each(response, function (index, value) {
+                            $("#data").append(value.CategoryName);
+                        });
+                    }
+                });
+            });
+
+
+
+            $("#btnCategory").click(function () {
+                $.ajax({
+                    url: url + "api/Category/2",
+                    type: "GET",
+                    success: function (response) {
+                        $("#data").append(response.CategoryName);
+                    }
+                });
+            });
+            $("#frm").serializeArray();
+            
+            $("#btnKaydet").click(function () {
+                $.ajax({
+                    url: url + "api/Category",
+                    type: "POST",
+                    data: $("#frm").serializeArray(),
+                    success: function (response) {
+                        $("#data").append(response.CategoryName);
+                    }
+                });
+            });
+
+
+     
+
+
+
+        });
+       
+
+    </script>
+}
